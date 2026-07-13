@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-app",
+  "version": "1.0.0",
+  "description": "Full-stack portfolio app with React, Node.js, and MySQL",
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
