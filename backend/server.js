@@ -1,37 +1,52 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-
-const projectsRouter = require('./routes/projects');
-const skillsRouter = require('./routes/skills');
-const contactRouter = require('./routes/contact');
+const express = require("express");
+const db = require("./config/db");
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173').split(',');
-app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+async function testDatabase() {
+    try {
+        const connection = await db.getConnection();
+        console.log("MySQL connected successfully!");
+        connection.release();
+    } catch (error) {
+        console.error("MySQL connection failed:", error.message);
+    }
+}
+
+testDatabase();
+
+app.post("/api/contact", async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+
+        if (!name || !email || !message) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
+        }
+
+        const sql = `
+            INSERT INTO contact_messages (name, email, message)
+            VALUES (?, ?, ?)
+        `;
+
+        await db.execute(sql, [name, email, message]);
+
+        res.status(201).json({
+            message: "Message saved successfully"
+        });
+
+    } catch (error) {
+        console.error("Database error:", error);
+
+        res.status(500).json({
+            message: "Failed to save message"
+        });
+    }
 });
 
-app.use('/api/projects', projectsRouter);
-app.use('/api/skills', skillsRouter);
-app.use('/api/contact', contactRouter);
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
-
-// Generic error handler (catches anything thrown synchronously in routes)
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: 'Something went wrong' });
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Portfolio API listening on http://localhost:${PORT}`);
+app.listen(5000, () => {
+    console.log("Portfolio API listening on http://localhost:5000");
 });
