@@ -15,7 +15,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: client
+        working-directory: frontend
 
     steps:
       - name: Checkout code
@@ -38,7 +38,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: server
+        working-directory: backend
 
     steps:
       - name: Checkout code
