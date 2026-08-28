@@ -1,7 +1,7 @@
 // Edit this file to personalize the site — it's the one place
 // that holds your name, bio and contact links.
 export const profile = {
-  name: 'Muhammad Talha Sial',
+  name: 'Muhammad Talha Sial-Welcome to My Portfolio - CI/CD Test',
   role: 'Cloud-Network Engineer',
   tagline: 'Results-driven Cloud Network Engineer specializing in scalable cloud infrastructure, SD-WAN, and zero-trust security policies.',
   location: 'Lahore, Pakistan',
