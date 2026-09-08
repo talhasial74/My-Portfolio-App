@@ -8,33 +8,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check SSH key secret
-        run: |
-          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then
-            echo "EC2_SSH_KEY is EMPTY or NOT AVAILABLE"
-            exit 1
-          else
-            echo "EC2_SSH_KEY is available"
-          fi
+      - name: Checkout repository code
+        uses: actions/checkout@v4
 
-      - name: Deploy to EC2
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
+          username: ${{ secrets.EC2_USERNAME }} # e.g., 'ubuntu' or 'ec2-user'
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/My-Portfolio-App
-
             git pull origin main
-
             cd frontend
             npm install
             npm run build
-
             cd ../backend
             npm install
-
             pm2 restart all || pm2 start server.js --name portfolio-backend
