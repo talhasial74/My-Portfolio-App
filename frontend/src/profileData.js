@@ -2,7 +2,7 @@
 // that holds your name, bio and contact links.
 export const profile = {
   name: 'Muhammad Talha Sial-Welcome to My Portfolio - CI/CD Test and Verification',
-  role: 'Cloud-Network Engineer',
+  role: 'Cloud-Network Engineer-NOC Engineer-DevOps Engineer',
   tagline: 'Results-driven Cloud Network Engineer specializing in scalable cloud infrastructure, SD-WAN, and zero-trust security policies.',
   location: 'Lahore, Pakistan',
   email: 'talhasial@example.com',
